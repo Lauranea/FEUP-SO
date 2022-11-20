@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <time.h>
+#include <stdbool.h>
 
 // nome prog; a.txt; n ; m;
 int main(int argc, char* argv[] )
@@ -65,15 +66,20 @@ int main(int argc, char* argv[] )
     */
    while(n != 0)
    {
+    bool die = false;
+    for (int i = num ; i < num+m; ++i)
+    {
+        if(text[i] == '\n')
+        {
+            die = true;
+        }
+    }
+    if(die)
+    {
+        n++;
+        continue;
+    }
     printf("<");
-    if(text[num] == '\n' && num > 0)
-    {
-        num--;
-    }
-    if(text[num - m] == '\n' && num > 0)
-    {
-        num++;
-    }
     for (int i = num ; i < num+m; ++i)
         {
             printf("%c", text[i]);
