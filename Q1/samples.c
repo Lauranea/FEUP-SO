@@ -5,8 +5,9 @@
 #include <time.h>
 
 // nome prog; a.txt; n ; m;
-int main(int argc, char* argv[] ){
-    
+int main(int argc, char* argv[] )
+{
+
     FILE *textfile;
     char *text;
     char c;
@@ -35,12 +36,13 @@ int main(int argc, char* argv[] ){
  
     fread(text, sizeof(char), numbytes, textfile);
     fclose(textfile);
- 
+    //printf("running");
 
     for(count= 0; text[count]!= '\0'; count++);
     
     int num = rand() % (count-m +1) ;
 
+    /*
     while (n>0)
     {
         //if ((num+m)<=count)
@@ -58,8 +60,28 @@ int main(int argc, char* argv[] ){
             } 
             printf(">");
        // }
-        num = rand() % (count +1) ;
+        num = rand() % (count-m +1) ;
     }
+    */
+   while(n != 0)
+   {
+    printf("<");
+    if(text[num] == '\n' && num > 0)
+    {
+        num--;
+    }
+    if(text[num - m] == '\n' && num > 0)
+    {
+        num++;
+    }
+    for (int i = num ; i < num+m; ++i)
+        {
+            printf("%c", text[i]);
+        }
+    printf(">\n"); 
+    num = rand() % (count-m +1) ;
+    n--;
+   }
     return 0;
 }
 
