@@ -8,7 +8,6 @@
 // nome prog; a.txt; n ; m;
 int main(int argc, char *argv[])
 {
-
     FILE *textfile;
     char *text;
     char c;
@@ -41,52 +40,24 @@ int main(int argc, char *argv[])
 
     int num = rand() % (count - m + 1);
     textfile = fopen(argv[1], "r");
-    /*
-    while (n>0)
-    {
-        //if ((num+m)<=count)
-        //{
-            n--;
-            printf("<");
-            for (int i =num ; i < num+m; ++i)
-            {
-                if(text[i]!='\n')
-                {
-                    printf("%c", text[i]);
-                }
-                else{i--;}
 
-            }
-            printf(">");
-       // }
-        num = rand() % (count-m +1) ;
-    }
-    */
-    while (n != 0)
+    while(n > 0)
     {
-        bool die = false;
-        for (int i = num; i < num + m; ++i)
+        putc('<', stdout);
+        int num = rand() % (count - m + 1);
+
+        fseek(textfile, num, SEEK_SET);
+        for(int i = 0; i < m; i++)
         {
-            if (text[i] == '\n')
+            char c = getc(textfile);
+            if(c < 32)
             {
-                die = true;
+                i--;
+                continue;
             }
-        }
-        if (die)
-        {
-            num = rand() % (count - m);
-            continue;
-        }
-        printf("<");
-        int j = num;
-        for (int i = num; i < num + m; ++i)
-        {
-            printf("%c", getc(textfile));
-            j++;
+            putc(c, stdout);
         }
         printf(">\n");
-        num = rand() % (count - m);
         n--;
     }
-    return 0;
 }
