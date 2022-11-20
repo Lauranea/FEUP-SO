@@ -12,7 +12,7 @@ void functioncall(char a[])
 
 }
 
-/*
+
 int main(int argc, char *argv[])
 {
     int b = 1;
@@ -34,19 +34,4 @@ int main(int argc, char *argv[])
     }
     
     return 0;
-}
-*/
-
-int main(int argc, char* argv[])
-{
-    int i = 1;
-    pid_t pid = fork();
-    if(pid == 0)
-    {
-        execv("functioncaller.c", argv);
-    }
-    else
-    {
-        return 0;
-    }
 }
