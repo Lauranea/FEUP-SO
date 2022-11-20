@@ -23,23 +23,9 @@ int main(int argc, char *argv[])
     if (textfile == NULL)
         return 1;
 
-    fseek(textfile, 0L, SEEK_END);
-    numbytes = ftell(textfile);
-    fseek(textfile, 0L, SEEK_SET);
-
-    text = (char *)calloc(numbytes, sizeof(char));
-    if (text == NULL)
-        return 1;
-
-    fread(text, sizeof(char), numbytes, textfile);
-    fclose(textfile);
-    // printf("running");
-
-    for (count = 0; text[count] != '\0'; count++)
-        ;
+    for(c = getc(textfile); c!= EOF; c = getc(textfile)) count++;
 
     int num = rand() % (count - m + 1);
-    textfile = fopen(argv[1], "r");
 
     while(n > 0)
     {
