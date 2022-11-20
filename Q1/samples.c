@@ -1,28 +1,65 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
+#include <time.h>
 
-int main(){
+// nome prog; a.txt; n ; m;
+int main(int argc, char* argv[] ){
+    
     FILE *textfile;
     char *text;
-    long numbytes;
+    char c;
 
-    //abrir o txt
-    textfile =fopen("quote.txt", "r");
+    long    numbytes;
+    int n = 5; //atoi(argv[2]);
+    int m = 7 ;//atoi(argv[3]);
+    char frag[m];
+    int count =0;
+    srand(time(0));
+
+    
+
+    textfile = fopen("quote.txt"/*argv[1]*/, "r");
     if(textfile == NULL)
         return 1;
-
-    //arranjar comprimento do txt
+    
+    
     fseek(textfile, 0L, SEEK_END);
     numbytes = ftell(textfile);
-    fseek(textfile, 0L, SEEK_SET);
-
-    //alocar memoria para o comprimento do ficheiro
-    text = (char*)calloc(numbytes, sizeof(char));
-    if (text == NULL)
+    fseek(textfile, 0L, SEEK_SET);  
+ 
+    text = (char*)calloc(numbytes, sizeof(char));   
+    if(text == NULL)
         return 1;
-
-    //ler o conteudo do txt e fechar //string texto c conteudo do ficheiro
+ 
     fread(text, sizeof(char), numbytes, textfile);
     fclose(textfile);
+ 
+
+    for(count= 0; text[count]!= '\0'; count++);
+    
+    int num = rand() % (count-m +1) ;
+
+    while (n>0)
+    {
+        //if ((num+m)<=count)
+        //{  
+            n--;
+            printf("<");
+            for (int i =num ; i < num+m; ++i)
+            {
+                if(text[i]!='\n')
+                {
+                    printf("%c", text[i]);
+                }
+                else{i--;}
+                
+            } 
+            printf(">");
+       // }
+        num = rand() % (count +1) ;
+    }
+    return 0;
 }
+
