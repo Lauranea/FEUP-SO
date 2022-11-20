@@ -14,15 +14,15 @@ int main(int argc, char* argv[] )
     char c;
 
     long    numbytes;
-    int n = 5; //atoi(argv[2]);
-    int m = 7 ;//atoi(argv[3]);
+    int n = atoi(argv[2]);
+    int m = atoi(argv[3]);
     char frag[m];
     int count =0;
     srand(time(0));
 
     
 
-    textfile = fopen("quote.txt"/*argv[1]*/, "r");
+    textfile = fopen(argv[1], "r");
     if(textfile == NULL)
         return 1;
     
@@ -76,14 +76,14 @@ int main(int argc, char* argv[] )
     }
     if(die)
     {
-        n++;
+        num = rand() % (count-m +1) ;
         continue;
     }
     printf("<");
     for (int i = num ; i < num+m; ++i)
-        {
-            printf("%c", text[i]);
-        }
+    {
+        printf("%c", text[i]);
+    }
     printf(">\n"); 
     num = rand() % (count-m +1) ;
     n--;
