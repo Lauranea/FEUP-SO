@@ -11,11 +11,17 @@
 int main(int argc, char* argv[])
 {
     
-    
+    int z = 1;
+    int systemcallersize = 1000;
+    while(z < argc)
+    {
+        systemcallersize += (strlen(argv[z]) + 2);
+        z++;
+    }
     int b = 1;
-    char systemcaller[1];
+    char systemcaller[systemcallersize];
     strcpy(systemcaller, "zip -r ebooks ");
-    /*
+    char name[100];
     while(b < argc)
     {
         int id = fork();
@@ -26,20 +32,37 @@ int main(int argc, char* argv[])
         }
         else
         {
-            char* name;
-            name = strtok(argv[1], ".");
+            strcpy(name, argv[b]);
+            strtok(name, ".");
+            strcat(name, ".epub");
             strcat(systemcaller, name);
-            strcar(systemcaller, " ");
+            strcat(systemcaller, " ");
             b++;
         }
     }
+    
     int i = 1;
     while(i < argc)
     {
         wait();
         i++;
     }
-    */
+    system(systemcaller);
+    
+    
+    i = 1;
+    char systemcaller2[1000];
+    while(i < argc)
+    {
+        strcpy(name, argv[i]);
+        strtok(name, ".");
+        strcpy(systemcaller2, "rm ");
+        strcat(systemcaller2, name);
+        strcat(systemcaller2, ".epub");
+        system(systemcaller2);
+        i++;
+    }
+    
     //int err = errno;
     //printf("%i\n", err);
     return 0;
