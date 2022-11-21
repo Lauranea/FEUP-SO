@@ -5,12 +5,8 @@
 #include <time.h>
 #include <stdbool.h>
 #include <string.h>
-
-
-void functioncall(char a[])
-{
-
-}
+#include <unistd.h>
+#include <errno.h>
 
 /*
 int main(int argc, char *argv[])
@@ -39,14 +35,9 @@ int main(int argc, char *argv[])
 
 int main(int argc, char* argv[])
 {
-    int i = 1;
-    pid_t pid = fork();
-    if(pid == 0)
-    {
-        execv("functioncaller.c", argv);
-    }
-    else
-    {
-        return 0;
-    }
+    execlp("./functioncaller", "./functioncaller","AristocracyAmerica.txt", NULL);
+    int err = errno;
+    printf("%i\n", err);
+    printf("Olá");
+    return 0;
 }
