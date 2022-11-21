@@ -8,36 +8,39 @@
 #include <unistd.h>
 #include <errno.h>
 
-/*
-int main(int argc, char *argv[])
-{
-    int b = 1;
-    while(b < argc)
-    {
-        char* name;
-        name = strtok(argv[b], ".");
-        printf("%s\n", name);
-        char systemcaller[20 + strlen(name) * 2];
-        printf("%s\n", name);
-        strcpy(systemcaller, "pandoc ");
-        strcat(systemcaller, name);
-        strcat(systemcaller, ".txt -o ");
-        strcat(systemcaller, name);
-        strcat(systemcaller, ".epub");
-        printf("%s\n", systemcaller);
-        system(systemcaller);
-        b++;
-    }
-    
-    return 0;
-}
-*/
-
 int main(int argc, char* argv[])
 {
-    execlp("./functioncaller", "./functioncaller","AristocracyAmerica.txt", NULL);
-    int err = errno;
-    printf("%i\n", err);
-    printf("Olá");
+    
+    
+    int b = 1;
+    char systemcaller[1];
+    strcpy(systemcaller, "zip -r ebooks ");
+    /*
+    while(b < argc)
+    {
+        int id = fork();
+        if(id == 0)
+        {
+            execlp("./functioncaller", "./functioncaller",argv[b], NULL);
+            exit(0);
+        }
+        else
+        {
+            char* name;
+            name = strtok(argv[1], ".");
+            strcat(systemcaller, name);
+            strcar(systemcaller, " ");
+            b++;
+        }
+    }
+    int i = 1;
+    while(i < argc)
+    {
+        wait();
+        i++;
+    }
+    */
+    //int err = errno;
+    //printf("%i\n", err);
     return 0;
 }
