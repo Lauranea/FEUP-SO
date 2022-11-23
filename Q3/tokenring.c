@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
     { 
         char pipename[BUFFER_SIZE];
 
-        if(i == atoi(argv[i])){
+        if(i == atoi(argv[1])){
             sprintf(pipename,"pipe%ito%i", i, 1);
             i = 1;
         }
