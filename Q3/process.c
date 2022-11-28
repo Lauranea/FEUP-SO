@@ -13,13 +13,16 @@
 
 int main(int argc, char* argv[])
 {
+    printf("Process nº%d started\n", atoi(argv[1]));
+    printf("Values = %d, %d, %f, %d\n", atoi(argv[1]), atoi(argv[2]), atof(argv[3]), atoi(argv[4]));
     int fd;
     char pipename_before[6 + strlen(argv[2]) * 2];
     char pipename_after[6 + strlen(argv[2]) * 2];
     if(atoi(argv[1]) == 1)
     {
         fd = open("pipe1to2", O_WRONLY);
-        if(write(fd, 0, sizeof(int)) == -1)
+        int x = 0;
+        if(write(fd, &x, sizeof(int)) == -1)
         {
             printf("Process one failed to write %d", 0);
         }
@@ -37,24 +40,32 @@ int main(int argc, char* argv[])
         sprintf(pipename_after,"pipe%ito%i", atoi(argv[1]), atoi(argv[1])+1);
         sprintf(pipename_before,"pipe%ito%i", atoi(argv[1]) - 1, atoi(argv[1]));
     }
+    int i;
+    float random;
     while(true)
     {
         fd = open(pipename_before, O_RDONLY);
-        int i;
         if(read(fd, &i, sizeof(int)) == -1)
         {
-            printf("Process %d couldn't read from pipe %s", atoi(argv[1]), pipename_before);
+            printf("Process %d couldn't read from pipe %s\n", atoi(argv[1]), pipename_before);
             return 0;
         }
         close(fd);
+        printf("Process %d recieved %d from %s\n", atoi(argv[1]), i, pipename_before);
         i++;
-        printf("Process nº%d wrote down the number %i", atoi(argv[1]), i);
+        random = rand() / RAND_MAX;
+        if(random <= atof(argv[3]))
+        {
+            sleep(atof(argv[4]));
+            printf("Process nº%d lockeded for %d seconds at value = %d\n", atoi(argv[1]), atoi(argv[4]), i);
+        }
         fd = open(pipename_after, O_WRONLY);
         if(write(fd, &i, sizeof(int)) == -1)
         {
-            printf("Process %d couldn't write %i into pipe %s", atoi(argv[1]), i, pipename_after);
+            printf("Process %d couldn't write %d into pipe %s\n", atoi(argv[1]), i, pipename_after);
             return 0;
         }
         close(fd);
+        printf("Process %d wrote down %d into %s\n", atoi(argv[1]), i, pipename_after);
     }
 }

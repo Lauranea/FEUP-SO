@@ -32,17 +32,21 @@ int main(int argc, char* argv[])
         return 0;
     }
     i = 1;
+    char c[strlen(argv[1])];
     while(i <= atoi(argv[1]))
     {
         int id = fork();
         if(id == 0)
         {
-            execlp("./process", "./process", i,argv[1], argv[2], argv[3], NULL);
+            sprintf(c, "%d", i);
+            printf("Process %d created\n", i);
+            execlp("./process", "./process", c, argv[1], argv[2], argv[3], NULL);
+            printf("Process %d failed to exec\n", i);
             exit(0);
         }
         else
         {
-            continue;
+            i++;
         }
     }
     return 0;
