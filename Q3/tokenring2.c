@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
         if(id == 0)
         {
             sprintf(c, "%d", i);
-            printf("Process %d created\n", i);
+            //printf("Process %d created\n", i);
             execlp("./process", "./process", c, argv[1], argv[2], argv[3], NULL);
             printf("Process %d failed to exec\n", i);
             exit(0);

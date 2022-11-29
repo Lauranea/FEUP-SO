@@ -13,8 +13,8 @@
 
 int main(int argc, char* argv[])
 {
-    printf("Process nº%d started\n", atoi(argv[1]));
-    printf("Values = %d, %d, %f, %d\n", atoi(argv[1]), atoi(argv[2]), atof(argv[3]), atoi(argv[4]));
+    //printf("Process nº%d started\n", atoi(argv[1]));
+    //printf("Values = %d, %d, %f, %d\n", atoi(argv[1]), atoi(argv[2]), atof(argv[3]), atoi(argv[4]));
     int fd;
     char pipename_before[6 + strlen(argv[2]) * 2];
     char pipename_after[6 + strlen(argv[2]) * 2];
@@ -41,6 +41,7 @@ int main(int argc, char* argv[])
         sprintf(pipename_before,"pipe%ito%i", atoi(argv[1]) - 1, atoi(argv[1]));
     }
     int i;
+    srand(atoi(argv[1]) + time(0));
     float random;
     while(true)
     {
@@ -51,9 +52,9 @@ int main(int argc, char* argv[])
             return 0;
         }
         close(fd);
-        printf("Process %d recieved %d from %s\n", atoi(argv[1]), i, pipename_before);
+        //printf("Process %d recieved %d from %s\n", atoi(argv[1]), i, pipename_before);
         i++;
-        random = rand() / RAND_MAX;
+        random = (float)rand() / RAND_MAX;
         if(random <= atof(argv[3]))
         {
             sleep(atof(argv[4]));
@@ -66,6 +67,6 @@ int main(int argc, char* argv[])
             return 0;
         }
         close(fd);
-        printf("Process %d wrote down %d into %s\n", atoi(argv[1]), i, pipename_after);
+        //printf("Process %d wrote down %d into %s\n", atoi(argv[1]), i, pipename_after);
     }
 }
