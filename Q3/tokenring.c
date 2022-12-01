@@ -13,6 +13,16 @@
 
 int main(int argc, char* argv[])
 {
+    if(argc < 4)
+    {
+        printf("Not enough arguments (3 arguments needed)\n");
+        return 0;
+    }
+    if(argc > 4)
+    {
+        printf("Too many arguments (3 arguments needed)\n");
+        return 0;
+    }
     char pipename[6 + strlen(argv[1]) * 2];
     int i = 1;
     while(i < atoi(argv[1]))
@@ -48,6 +58,13 @@ int main(int argc, char* argv[])
         {
             i++;
         }
+    }
+    i = 0;
+    while(i < atoi(argv[1]))
+    {
+        wait();
+        printf("killed process %d", i);
+        i++;
     }
     return 0;
 }

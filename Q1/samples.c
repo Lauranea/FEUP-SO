@@ -8,6 +8,16 @@
 // nome prog; a.txt; n ; m;
 int main(int argc, char *argv[])
 {
+    if(argc < 4)
+    {
+        printf("Not enough arguments (3 arguments needed)\n");
+        return 0;
+    }
+    if(argc > 4)
+    {
+        printf("Too many arguments (3 arguments needed)\n");
+        return 0;
+    }
     FILE *textfile;
     char *text;
     char c;
@@ -29,7 +39,7 @@ int main(int argc, char *argv[])
 
     while(n > 0)
     {
-        putc('<', stdout);
+        putc('>', stdout);
         int num = rand() % (count - m + 1);
 
         fseek(textfile, num, SEEK_SET);
@@ -43,7 +53,7 @@ int main(int argc, char *argv[])
             }
             putc(c, stdout);
         }
-        printf(">\n");
+        printf("<\n");
         n--;
     }
 }
