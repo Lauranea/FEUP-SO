@@ -62,7 +62,7 @@ int main(int argc, char* argv[])
     i = 0;
     while(i < atoi(argv[1]))
     {
-        wait();
+        wait(NULL);
         printf("killed process %d", i);
         i++;
     }
