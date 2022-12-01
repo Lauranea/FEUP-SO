@@ -62,12 +62,8 @@ int main(int argc, char* argv[])
     i = 0;
     while(i < atoi(argv[1])) //Enquanto os child process não terminarem, o parent process também não chega ao fim da sua execução
     {
-<<<<<<< Updated upstream
         wait(NULL);
         printf("killed process %d", i);
-=======
-        wait();
->>>>>>> Stashed changes
         i++;
     }
     return 0;
