@@ -17,72 +17,70 @@ char* pipename_after;
 
 void sig_end(int a)
 {
-    unlink(pipename_before);
-    exit(0);
+    unlink(pipename_before); //Fecha a pipe pipename_before
+    exit(0); //Termina o processo
 }
 
 
 
 int main(int argc, char* argv[])
 {
-    signal(SIGINT, sig_end);
-    //printf("Process nº%d started\n", atoi(argv[1]));
-    //printf("Values = %d, %d, %f, %d\n", atoi(argv[1]), atoi(argv[2]), atof(argv[3]), atoi(argv[4]));
+    signal(SIGINT, sig_end); //Caso o utilizador faça ctrl + c, a função sig_end será chamada
     int fd;
-    pipename_before = (char*) malloc(6 + strlen(argv[2]) * 2 * sizeof(char));
-    pipename_after = (char*) malloc(6 + strlen(argv[2]) * 2 * sizeof(char));
-    if(atoi(argv[1]) == 1)
+    pipename_before = (char*) malloc(6 + strlen(argv[2]) * 2 * sizeof(char)); //Define o tamanho da pipename_before
+    pipename_after = (char*) malloc(6 + strlen(argv[2]) * 2 * sizeof(char)); //Define o tamanho da pipename_after
+    if(atoi(argv[1]) == 1) //Executa caso seja o processo nº1
     {
-        fd = open("pipe1to2", O_WRONLY);
+        fd = open("pipe1to2", O_WRONLY); //Abre a primeira pipe para write only
         int x = 0;
-        if(write(fd, &x, sizeof(int)) == -1)
+        if(write(fd, &x, sizeof(int)) == -1) //Caso não consiga abrir, informa o utilizador e termina o processo
         {
             printf("Process one failed to write %d", 0);
+            return 0;
         }
-        close(fd);
+        close(fd); //Fecha a primeira pipe
+        //Define o nome das pipes que irá utilizar
         sprintf(pipename_after,"pipe%ito%i", 1, 2);
         sprintf(pipename_before,"pipe%ito%i", atoi(argv[2]), 1);
     }
     else if(atoi(argv[1]) == atoi(argv[2]))
     {
+        //Define o nome das pipes que irá utilizar, sendo que a pipename_after é da forma pipento1
         sprintf(pipename_after,"pipe%ito%i", atoi(argv[2]), 1);
         sprintf(pipename_before,"pipe%ito%i", atoi(argv[2]) - 1, atoi(argv[2]));
     }
     else
     {
+        //Define o nome das pipes que irá utilizar
         sprintf(pipename_after,"pipe%ito%i", atoi(argv[1]), atoi(argv[1])+1);
         sprintf(pipename_before,"pipe%ito%i", atoi(argv[1]) - 1, atoi(argv[1]));
     }
-    //printf("Process %d defined the pipes\n", atoi(argv[1]));
     int i;
-    srandom(atoi(argv[1]) + time(0));
+    srandom(atoi(argv[1]) + time(0)); //Define a seed utilizando o nº do processo e o time(0)
     float random;
-    while(true)
+    while(true) //Cria um loop infinito
     {
-        //printf("process %d\n", atoi(argv[1]));
-        fd = open(pipename_before, O_RDONLY);
-        if(read(fd, &i, sizeof(int)) == -1)
+        fd = open(pipename_before, O_RDONLY); //Abre a pipe anterior para read only
+        if(read(fd, &i, sizeof(int)) == -1) //Caso não consiga abrir, informa o utilizador e acaba a execução
         {
             printf("Process %d couldn't read from pipe %s\n", atoi(argv[1]), pipename_before);
             return 0;
         }
-        close(fd);
-        //printf("Process %d recieved %d from %s\n", atoi(argv[1]), i, pipename_before);
-        i++;
+        close(fd); //Fecha a pipe anterior
+        i++; //incrementa o token
         random = (float) rand() / RAND_MAX;
-        if(random <= atof(argv[3]))
+        if(random <= atof(argv[3])) //Probabilidade
         {
-            printf("[p%d] lock on token (val = %d)\n", atoi(argv[1]), i);
-            sleep(atof(argv[4]));
-            printf("[p%d] unlock token\n", atoi(argv[1]));
+            printf("[p%d] lock on token (val = %d)\n", atoi(argv[1]), i); //Informa o utilizador de que o token foi locked, o seu valor, e o processo que lhe deu lock
+            sleep(atof(argv[4])); //Dá lock ao token
+            printf("[p%d] unlock token\n", atoi(argv[1])); //Informa o utilizador de que o token foi unlocked
         }
-        fd = open(pipename_after, O_WRONLY);
-        if(write(fd, &i, sizeof(int)) == -1)
+        fd = open(pipename_after, O_WRONLY); //Abre a pipe seguinte para write only
+        if(write(fd, &i, sizeof(int)) == -1) //Caso não consiga abrir, informa o utilizador e acaba a execução
         {
             printf("Process %d couldn't write %d into pipe %s\n", atoi(argv[1]), i, pipename_after);
             return 0;
         }
-        close(fd);
-        //printf("Process %d wrote down %d into %s\n", atoi(argv[1]), i, pipename_after);
+        close(fd); //Fecha a pipe
     }
 }

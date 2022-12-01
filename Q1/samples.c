@@ -8,6 +8,7 @@
 // nome prog; a.txt; n ; m;
 int main(int argc, char *argv[])
 {
+    //Verificar se foram dados o numero correto de argumentos
     if(argc < 4)
     {
         printf("Not enough arguments (3 arguments needed)\n");
