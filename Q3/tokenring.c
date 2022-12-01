@@ -11,52 +11,43 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#define BUFFER_SIZE 1024
-
-
 int main(int argc, char* argv[])
 {
-    int fd;
-    int passed = 0;
+    char pipename[6 + strlen(argv[1]) * 2];
     int i = 1;
-    int current_time = time(0);
-
+    while(i < atoi(argv[1]))
+    {
+        sprintf(pipename,"pipe%ito%i", i, i+1);
+        if(mkfifo(pipename, 0777) == -1)
+        {
+            printf("Error creating %s", pipename);
+            return 0;
+        }
+        i++;
+    }
+    sprintf(pipename,"pipe%ito%i", i, 1);
+    if(mkfifo(pipename, 0777) == -1)
+    {
+        printf("Error creating %s", pipename);
+        return 0;
+    }
+    i = 1;
+    char c[strlen(argv[1])];
     while(i <= atoi(argv[1]))
-    { 
-        srand(current_time);
-        current_time++;
-        double chance = rand() % 10000; //nao tenho a certeza da precisao, entao fica 0.01%
-        printf("\n%f\t%f", chance,atof(argv[2]) * 10000);
-        if(chance <= atof(argv[2]) * 10000){
-            printf("\n[p%i] lock on token ( val = %i)",i,passed);
-            sleep(atof(argv[3]));
-            printf("\n[p%i] unlock token",i);
+    {
+        int id = fork();
+        if(id == 0)
+        {
+            sprintf(c, "%d", i);
+            //printf("Process %d created\n", i);
+            execlp("./process", "./process", c, argv[1], argv[2], argv[3], NULL);
+            printf("Process %d failed to exec\n", i);
+            exit(0);
         }
-        char pipename[BUFFER_SIZE];
-
-        if(i == atoi(argv[1])){
-            sprintf(pipename,"pipe%ito%i", i, 1);
-            i = 1;
-        }
-        else {
-            sprintf(pipename,"pipe%ito%i", i, i+1);
+        else
+        {
             i++;
         }
-
-
-        char passed_str[BUFFER_SIZE];
-        sprintf(passed_str,"%i",passed);
-
-        mkfifo(pipename, 0666); //criar named pipe
-
-        fd = open(pipename, O_WRONLY); //write only
-
-        write(fd,passed_str,strlen(passed_str));
-        close(fd);
-
-        unlink(pipename);
-        passed++;
     }
-
     return 0;
 }
