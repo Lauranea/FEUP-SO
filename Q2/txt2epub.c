@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
     int i = 1;
     while(i < argc)
     {
-        wait();
+        wait(NULL);
         i++;
     }
     system(systemcaller);

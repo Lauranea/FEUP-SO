@@ -6,13 +6,6 @@
 #include <stdbool.h>
 #include <string.h>
 
-
-void functioncall(char a[])
-{
-
-}
-
-
 int main(int argc, char *argv[])
 {
     
@@ -27,7 +20,6 @@ int main(int argc, char *argv[])
     strcat(systemcaller, name);
     strcat(systemcaller, ".epub");
     system(systemcaller);
-    
     
     return 0;
 }
