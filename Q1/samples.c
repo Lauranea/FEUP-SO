@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     int m = atoi(argv[3]);
     char frag[m];
     int count = 0;
-    srand(time(0));
+    srand(0);
 
     textfile = fopen(argv[1], "r");
     if (textfile == NULL)
