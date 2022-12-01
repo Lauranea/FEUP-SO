@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
     int count = 0;
     srand(0);
 
+    //abrir o ficheiro e contar os caracteres
     textfile = fopen(argv[1], "r");
     if (textfile == NULL)
         return 1;
@@ -38,11 +39,13 @@ int main(int argc, char *argv[])
 
     int num = rand() % (count - m + 1);
 
+    //imprimir n fragmentos com m caracteres, começando num caracter random
     while(n > 0)
     {
         putc('>', stdout);
         int num = rand() % (count - m + 1);
 
+        
         fseek(textfile, num, SEEK_SET);
         for(int i = 0; i < m; i++)
         {
